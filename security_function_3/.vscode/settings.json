@@ -1,0 +1,12 @@
+{
+  "azureFunctions.javaBuildTool": "maven",
+  "azureFunctions.deploySubpath": "target/azure-functions/security_function_3-20230718",
+  "azureFunctions.projectLanguage": "Java",
+  "azureFunctions.projectRuntime": "~4",
+  "debug.internalConsoleOptions": "neverOpen",
+  "azureFunctions.preDeployTask": "package (functions)",
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "appService.preDeployTask": "package:security_function_3",
+  "appService.deploySubpath": "target/security_function_3-1.0-SNAPSHOT.jar",
+  "azureCLI.showResultInNewEditor": true
+}
