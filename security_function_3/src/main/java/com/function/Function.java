@@ -70,20 +70,20 @@ public class Function { private static final int THREADS = 100;
      FindIterable<Document> documents = collection.find();
         for (Document doc : documents) {
             cuenta_unidades_totales.incrementAndGet();
-            if (doc.getString("status").equals("complete")) {
+            if ("complete".equals(doc.getString("status"))) {
                 cuenta_unidades_completadas.incrementAndGet();
             }
-
             Document lessons = (Document) doc.get("lessons");
-            for (String key : lessons.keySet()) {
-                Document lesson = (Document) lessons.get(key);
-                cuenta_lecciones_totales.incrementAndGet();
-                if (lesson.getString("status").equals("complete")) {
-                    cuenta_lecciones_completadas.incrementAndGet();
+            if(lessons!=null){
+                for(String key:lessons.keySet()){
+                    Document lesson = (Document) lessons.get(key);
+                    cuenta_lecciones_totales.incrementAndGet();
+                    if("complete".equals(lessons.getString("status"))){
+                        cuenta_lecciones_completadas.incrementAndGet();
+                    }
                 }
             }
         }
-
     int page = 1;
     OkHttpClient client = new OkHttpClient().newBuilder()
                 // .callTimeout(60, TimeUnit.MINUTES)
@@ -201,6 +201,12 @@ collection.insertOne(doc);
         }
         return request.createResponseBuilder(HttpStatus.OK).body("Operación terminada con éxito").build();
     }  	
+
+    
+        
+
+    
+
     private static void fetchAndPrintUserUnits(OkHttpClient client, String external_user_id, JSONObject user, MongoCollection<Document> collection /*OnUserCompleteCallback callback*/) throws IOException {
     	
         String signature = DigestUtils.sha256Hex(API_SECRET);
@@ -283,8 +289,3 @@ collection.insertOne(doc);
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 } 
-    /**
-     * This function listens at endpoint "/api/HttpExample". Two ways to invoke it using "curl" command in bash:
-     * 1. curl -d "HTTP Body" {your host}/api/HttpExample
-     * 2. curl "{your host}/api/HttpExample?name=HTTP%20Query"
-     */
